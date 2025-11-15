@@ -8,6 +8,7 @@ public class App {
     String symbol1;
     String symbol2;
     boolean gameState = false;
+    WinLogic winLogic;
 
     public App (int yH, int xH, ArrayList<ArrayList<String>> xL, String s1, String s2) {
         this.yHeight = yH;
@@ -15,19 +16,27 @@ public class App {
         this.xList = xL;
         this.symbol1 = s1;
         this.symbol2 = s2;
+        this.winLogic = new WinLogic(xList);
     }
 
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
         gameState = true;
         while (gameState) {
-            printField();
-            System.out.println("give row to place : ");
-            int block = scanner.nextInt();
-            setObject(symbol1, block - 1);
+            gameTurn(symbol1, "1", scanner);
+            System.out.println(winLogic.checkWin());
+            gameTurn(symbol2, "2", scanner);
+            System.out.println(winLogic.checkWin());
         }
         printField();
         scanner.close();
+    }
+
+    public void gameTurn(String pSymbol, String pNumber, Scanner scanner) {
+        printField();
+        System.out.println("Player " + pNumber + "'s turn | Choose row to place : ");
+        int block = scanner.nextInt();
+        setObject(pSymbol, block - 1);
     }
 
     public void printField() {
