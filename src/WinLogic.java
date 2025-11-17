@@ -9,7 +9,7 @@ public class WinLogic {
     }
 
     public boolean checkWin() {
-        return checkDiagonal();
+        return checkHorizontal() || checkVertical() || checkDiagonalRight() || checkDiagonalLeft();
     }
 
     public boolean checkVertical() {
@@ -56,7 +56,7 @@ public class WinLogic {
         return result;
     }
 
-    public boolean checkDiagonal() {
+    public boolean checkDiagonalRight() {
         boolean result = false;
         for (int i = 0; i < xList.getFirst().size() - 3; i++) {  //vertical number of iterations
             for (int j = 0; j < xList.size() - 3; j++) {  //horizontal number of iterations
@@ -67,6 +67,30 @@ public class WinLogic {
                     if (!(currentSymbol.isEmpty()) && currentSymbol.equals(recentSymbol)) {
                         counter++;
                     } else {
+                        recentSymbol = currentSymbol;
+                        counter = 1;
+                    }
+
+                    if (counter == 4) {
+                        result = true;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean checkDiagonalLeft() {
+        boolean result = false;
+        for (int i = 0; i < xList.getFirst().size() - 3; i++) {
+            for (int j = xList.size() - 1; j >= 3; j--) {
+                int counter = 1;
+                String recentSymbol = "";
+                for (int k = 0; k < 4; k++) {
+                    String currentSymbol = xList.get(j - k).get(k + i);
+                    if (!(currentSymbol.isEmpty()) && currentSymbol.equals(recentSymbol)) {
+                        counter++;
+                    }  else {
                         recentSymbol = currentSymbol;
                         counter = 1;
                     }
